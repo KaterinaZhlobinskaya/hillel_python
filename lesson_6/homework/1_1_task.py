@@ -89,14 +89,14 @@ def update_dj():
                         else:
                             param_value = input("Enter new value: ")
                             curr_dj[param_name] = param_value
-            djs.append(curr_dj)
-            for dj_1 in djs:
-                print(dj_1)
-            break
-        if not is_exist:
-            print(f"{updated} is None! Please, enter correct DJ's name: ")
+                djs.append(curr_dj)
+                for dj_1 in djs:
+                    print(dj_1)
+                break
+    if not is_exist:
+        print(f"{updated} is None! Please, enter correct DJ's name: ")
         
-if __name__ == "main":
+if __name__ == "__main__":
     djs = [tiesto, avicci, anna]
     allowed_params = ["name", "age", "equipment", "discography", "salary", "genre"]
     allowed_options = "[add/list/names/delete/update/exit]"
