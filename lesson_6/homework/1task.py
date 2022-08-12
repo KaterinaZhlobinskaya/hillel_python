@@ -1,6 +1,4 @@
-from doctest import _Out
 from pprint import pprint
-
 tiesto = {
     "name": "Tiesto",
     "age": 55,
@@ -58,19 +56,16 @@ def add_dj(data):
         }
         data.append(new_dj_data)
         return new_dj_data
-def del_dj(data):
-    djs = [tiesto, avicci, anna]
+def del_dj():
     user_choise = input("Enter DJ's name which you want to delete: ")
     element = user_choise
-    for element in [data[0], data[1], data[2]]:
-        index = data.index(element)
-        if element is not None:
-            data = [dj for dj in djs if index not in dj["name"].keys()]
-        else:
-            print(f"{element} is None! Please, enter correct DJ's name: ")
-            return None
-    return data.append(djs)
-if __name__ == "__main__":
+    for dj in djs:
+        if dj.get("name") == element:
+            djs.remove(dj)
+            return True
+    print(f"{element} is None! Please, enter correct DJ's name: ")
+    return False
+if __name__ == "main":
     djs = [tiesto, avicci, anna]
     allowed_options = "[add/list/names/delete/exit]"
     while True:
@@ -86,9 +81,12 @@ if __name__ == "__main__":
             data = [dj["name"] for dj in djs]
             pprint(data)
         elif desision == "delete":
-            deleted_dj = del_dj(djs)
+            deleted_dj = del_dj()
             if deleted_dj:
                 print(f"DJ is deleted!")
+                print("")
+                for dj in djs:
+                    print(dj.get("name") + " ")
         elif desision == "exit":
             print("Exiting...")
             break
