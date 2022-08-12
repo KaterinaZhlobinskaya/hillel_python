@@ -1,4 +1,5 @@
 from pprint import pprint
+
 tiesto = {
     "name": "Tiesto",
     "age": 55,
@@ -57,17 +58,48 @@ def add_dj(data):
         data.append(new_dj_data)
         return new_dj_data
 def del_dj():
-    user_choise = input("Enter DJ's name which you want to delete: ")
-    element = user_choise
+    element = input("Enter DJ's name which you want to delete: ")
     for dj in djs:
         if dj.get("name") == element:
             djs.remove(dj)
             return True
     print(f"{element} is None! Please, enter correct DJ's name: ")
     return False
+def update_dj():
+    updated = input("Enter DJ's name which you want to update: ")
+    is_exist = False
+    for dj in djs:
+        if dj.get("name") == updated:
+            is_exist = True
+            curr_dj = dj
+            djs.remove(dj)
+            param_count = int(input("Input count of change params (1-6)"))
+            if param_count < 1 or param_count > 6:
+                print("count of params is incorrect")
+                break
+            else:
+                for i in range(1, param_count + 1):
+                    param_name = input("Input param name: ")
+                    if param_name not in allowed_params:
+                        print(f"{param_name} is incorrect parameter name")
+                    else:
+                        if param_name in ["age", "discography", "salary"]:
+                            param_value = int(input("Enter new value: "))
+                            curr_dj[param_name] = param_value
+                        else:
+                            param_value = input("Enter new value: ")
+                            curr_dj[param_name] = param_value
+            djs.append(curr_dj)
+            for dj_1 in djs:
+                print(dj_1)
+            break
+        if not is_exist:
+            print(f"{updated} is None! Please, enter correct DJ's name: ")
+        
 if __name__ == "main":
     djs = [tiesto, avicci, anna]
-    allowed_options = "[add/list/names/delete/exit]"
+    allowed_params = ["name", "age", "equipment", "discography", "salary", "genre"]
+    allowed_options = "[add/list/names/delete/update/exit]"
     while True:
         desision = input(f"What should I do?{allowed_options}: ")
         if desision == "add":
@@ -87,6 +119,8 @@ if __name__ == "main":
                 print("")
                 for dj in djs:
                     print(dj.get("name") + " ")
+        elif desision == "update":
+            update_dj()
         elif desision == "exit":
             print("Exiting...")
             break
