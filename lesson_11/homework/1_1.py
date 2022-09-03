@@ -1,4 +1,5 @@
 from pprint import pprint
+from typing import Callable
 
 anna_data = {
     "name": "Anna",
@@ -52,32 +53,6 @@ def validate_dj_data(data):
 
     return Dj(*data)
 
-'''
-def validate_dj_data(func):
-    def inner(data)
-        if len(data) != 7:
-            print("The number of arguments is not correct!")
-            return None
-
-        if data[0].isdigit():
-            print(f"{data[0]} is digit")
-            return None
-
-        for element in [data[1], data[3], data[4]]:
-            index = data.index(element)
-            if element.isdigit():
-                data[index] = int(element)
-            else:
-                print(f"{element} is not a digit")
-                return None
-
-        if not data[5].isalnum():
-            print(f"{data[5]} is not an alnum")
-            return None
-
-        return Dj(*data)
-    return inner
-'''
 
 class Dj:
     # This is a list of all djs
@@ -99,12 +74,22 @@ class Dj:
             message = "She is"
         print(f"{message} {self.name}, {self.age} years old")
 
+    def validate(func: Callable) -> Callable:
+        def inner(*args, **kwargs):
+            print("Update DJ's data by format: name,age,equipment,discography,salary,genre,male: ")
+            user_input = input("Enter new DJ's data: ")
+            dj_data = user_input.split(",")
+            return func(*args, validate_dj_data(dj_data))
+
+        return inner
+
     @classmethod
-    def add(cls):
-        print("Update DJ's data by format: name,age,equipment,discography,salary,genre,male: ")
-        user_input = input("Enter new DJ's data: ")
-        dj_data = user_input.split(",")
-        new_dj = validate_dj_data(dj_data)
+    @validate
+    def add(cls, new_dj):
+        # print("Update DJ's data by format: name,age,equipment,discography,salary,genre,male: ")
+        # user_input = input("Enter new DJ's data: ")
+        # dj_data = user_input.split(",")
+        # new_dj = validate_dj_data(dj_data)
 
         if new_dj is not None:
             cls.djs.append(new_dj)
@@ -120,7 +105,8 @@ class Dj:
         return False
 
     @classmethod
-    def update(cls, name):
+    @validate
+    def update(cls, name, new_dj):
         selected_dj = None
         for dj in cls.djs:
             if dj.name == name:
@@ -128,29 +114,26 @@ class Dj:
                 break
 
         if selected_dj is None:
+            print("DJ not found")
             return
 
-        print("Update DJ's data by format: name,age,equipment,discography,salary,genre,male: ")
-        update_input = input("Enter DJ's new data:")
-        update_data = update_input.split(",")
-        new_dj = validate_dj_data(update_data)
-
         if new_dj is None:
+            print("Not validte")
             return None
 
-        deleted = cls.delete(selected_dj)
+        deleted = cls.delete(name)
         if deleted:
             cls.djs.append(new_dj)
             return new_dj
 
     @classmethod
     def list(cls):
-        for dj in Dj.djs:
+        for dj in cls.djs:
             dj.show_short_details()
 
     @classmethod
     def names(cls):
-        data = [dj.name for dj in Dj.djs]
+        data = [dj.name for dj in cls.djs]
         pprint(data)
 
 
