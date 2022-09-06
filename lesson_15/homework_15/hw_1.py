@@ -30,8 +30,7 @@ async def manager():
 loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
 
-# numbers = [40000, 400, 1000000, 700]
-numbers = [4000, 40, 100, 7]
+numbers = [40000, 400, 1000000, 700]
 for i in numbers:
     background_tasks.add(print_async(i))
 
