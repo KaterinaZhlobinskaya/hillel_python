@@ -73,8 +73,9 @@ path = input("Введите имя файла:")
 
 try:
     file = open(path)
-except:
+except Exception as e:
     print("Не удалось прочитать файл")
+    print(e)
     exit()
 else:
     print_lines(read_all_lines())
